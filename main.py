@@ -11,8 +11,8 @@ try:
         email_inbox_connection.select('inbox')
 
         """ 
-        don't if 'type' value returned from search method will be used for now,
-        so we'll just discard it 
+        don't know if 'type' value returned from search method will have it's use,
+        so I'll be discarding it for now 
         """
         _, data = email_inbox_connection.search(None, config.search, config.data_to_search_for)
 
