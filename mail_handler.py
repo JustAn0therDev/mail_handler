@@ -9,4 +9,4 @@ try:
     imap_connection_handler = ImapConnectionHandler(config)
     imap_connection_handler.execute_instructions_from_config_values()
 except Exception as error:
-    print(f'[EXCEPTION] - An unexpected error occurred: {str(error)}')
+    print(f'[EXCEPTION]: {str(error)}')

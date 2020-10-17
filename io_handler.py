@@ -25,17 +25,14 @@ class IOHandler:
             file_writer.truncate()
 
     @staticmethod
-    def write_payload_to_file(payload: email,
-                              content_type: str,
-                              content_disposition: list,
-                              file_path: str) -> None:
+    def write_payload_to_file(payload: email, content_type: str, content_disposition: list, file_path: str) -> None:
         try:
             with open(file_path, 'a') as file_writer:
                 if content_type == 'text/plain' and 'attachment' not in content_disposition:
                     text_plain_message = payload.decode('utf-8')
                     file_writer.write('{}\n'.format(text_plain_message))
-        except Exception as exception:
-            print(f'[EXCEPTION] - File Writing: {exception}')
+        except Exception as ex_error:
+            print(f'[EXCEPTION] - File Writing: {ex_error}')
 
     @staticmethod
     def download_message_attachment(self) -> None:
