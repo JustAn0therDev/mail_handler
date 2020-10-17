@@ -1,5 +1,7 @@
 from imaplib import IMAP4_SSL, IMAP4
 import email
+from typing import Union
+
 from config import Config
 from io_handler import IOHandler
 
@@ -52,9 +54,9 @@ class ImapConnectionHandler:
                             content_disposition=str(email_message.get('Content-Disposition')),
                             file_path=self.__config.save_file_path)
                 else:
-                    print("No email message found for the specified criteria in the configuration file")
+                    print("No message was found for the specified criteria in the configuration file")
 
     @staticmethod
-    def __get_email_message(data: tuple) -> email:
+    def __get_email_message(data: Union[list, list]) -> email:
         raw_email_data: bytearray = data[0][1]
         return email.message_from_string(s=raw_email_data.decode('utf-8'))
