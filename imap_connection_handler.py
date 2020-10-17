@@ -40,10 +40,10 @@ class ImapConnectionHandler:
     def __try_write_message_body_to_file(self, imap_connection: IMAP4, email_data: list) -> None:
         if len(email_data) > 0:
             for i, value in enumerate(email_data[0].split()):
-                file_name = f'{self.__config.save_file_path}_{i}{self.__config.default_file_extension}'
+                file_path = f'{self.__config.save_file_path}/{self.__config.save_file_name}_{i}.txt'
                 _, email_data_in_bytes = imap_connection.fetch(value, '(RFC822)')
                 if email_data_in_bytes[0] is not None:
-                    IOHandler.truncate_file_content(file_name)
+                    IOHandler.truncate_file_content(file_path)
                     email_message = ImapConnectionHandler.__get_email_message(email_data_in_bytes)
                     if email_message.is_multipart():
                         for payload in email_message.walk():
@@ -51,13 +51,13 @@ class ImapConnectionHandler:
                                 payload=payload.get_payload(decode=True),
                                 content_type=payload.get_content_type(),
                                 content_disposition=str(payload.get('Content-Disposition')),
-                                file_path=file_name)
+                                file_path=file_path)
                     else:
                         IOHandler.write_payload_to_file(
                             payload=email_message.get_payload(decode=True),
                             content_type=email_message.get_content_type(),
                             content_disposition=str(email_message.get('Content-Disposition')),
-                            file_path=file_name)
+                            file_path=file_path)
                 else:
                     print('No message was found for the specified criteria in the configuration file')
 

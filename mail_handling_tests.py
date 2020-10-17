@@ -29,7 +29,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(str(raised_exception), 'The specified mailbox could not be found or accessed')
 
     def test_execute_instructions_from_config_values_should_write_email_to_output_file(self):
-        file_name = 'output_0.txt'
+        file_name = f'{self.__config.save_file_path}/message_output_0.txt'
         self.__imap_connection_handler.execute_instructions_from_config_values()
         self.assertTrue(Path(file_name).stat().st_size > 0)
         os.remove(file_name)

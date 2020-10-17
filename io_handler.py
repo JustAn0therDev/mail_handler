@@ -35,5 +35,5 @@ class IOHandler:
             print(f'[EXCEPTION] - File Writing: {ex_error}')
 
     @staticmethod
-    def download_message_attachment(self) -> None:
+    def download_email_attachment(self) -> None:
         pass

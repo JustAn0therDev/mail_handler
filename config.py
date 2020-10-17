@@ -12,5 +12,5 @@ class Config:
         self.data_to_look_for = dictionary_of_configs['DATA_TO_LOOK_FOR']
         self.mailbox = dictionary_of_configs['MAILBOX']
         self.imap_address = dictionary_of_configs['IMAP_ADDRESS']
-        self.save_file_path = 'output'
-        self.default_file_extension = '.txt'
+        self.save_file_path = dictionary_of_configs['OUTPUT']
+        self.save_file_name = 'message_output'
