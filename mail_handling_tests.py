@@ -1,22 +1,44 @@
+import os
 import unittest
+from pathlib import Path
 from config import Config
+from io_handler import IOHandler
 from imap_connection_handler import ImapConnectionHandler
 
 
 class MyTestCase(unittest.TestCase):
-    def test_that_no_obligatory_config_prop_is_empty(self):
-        config = Config('configs.txt')
-        self.assertTrue(config.email is not None)
-        self.assertTrue(config.app_password is not None)
-        self.assertTrue(config.search is not None)
-        self.assertTrue(config.data_to_look_for is not None)
-        self.assertTrue(config.mailbox is not None)
-        self.assertTrue(config.imap_address is not None)
+    def setUp(self):
+        self.__config = Config('testing_configs.txt')
+        self.__imap_connection_handler = ImapConnectionHandler(self.__config)
 
-    def test_imap_connection_handler_instance(self):
-        config = Config('configs.txt')
-        imap_connection_handler = ImapConnectionHandler(config)
-        self.assertTrue(imap_connection_handler is not None)
+    def test_that_no_obligatory_config_prop_is_empty(self):
+        self.assertTrue(self.__config.email is not None)
+        self.assertTrue(self.__config.app_password is not None)
+        self.assertTrue(self.__config.search is not None)
+        self.assertTrue(self.__config.data_to_look_for is not None)
+        self.assertTrue(self.__config.mailbox is not None)
+        self.assertTrue(self.__config.imap_address is not None)
+
+    def test_imap_connection_handler_instance_is_not_none(self):
+        self.assertTrue(self.__imap_connection_handler is not None)
+
+    def test_selection_result_validation_should_throw_exception(self):
+        with self.assertRaises(expected_exception=Exception) as assertRaises:
+            ImapConnectionHandler.validate_selection_result('NOK')
+        raised_exception = assertRaises.exception
+        self.assertEqual(str(raised_exception), 'The specified mailbox could not be found or accessed')
+
+    def test_execute_instructions_from_config_values_should_write_email_to_output_file(self):
+        file_name = 'output_0.txt'
+        self.__imap_connection_handler.execute_instructions_from_config_values()
+        self.assertTrue(Path(file_name).stat().st_size > 0)
+        os.remove(file_name)
+
+    def test_io_handling_sys_args_validation(self):
+        with self.assertRaises(expected_exception=SystemExit) as assertRaises:
+            IOHandler.validate_arguments(['nothing'])
+        raised_exception = assertRaises.exception
+        self.assertEqual(raised_exception.code, 1)
 
 
 if __name__ == '__main__':
