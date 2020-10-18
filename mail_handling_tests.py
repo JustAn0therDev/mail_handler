@@ -37,7 +37,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_attachment_download(self):
         self.__imap_connection_handler.execute_instructions_from_config_values()
-
+~
     def test_io_handling_sys_args_validation(self):
         with self.assertRaises(expected_exception=SystemExit) as assertRaises:
             IOHandler.validate_arguments(['nothing'])

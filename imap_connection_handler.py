@@ -66,6 +66,8 @@ class ImapConnectionHandler:
                             file_path=file_path)
                 else:
                     print('No information was found for the searched message')
+        else:
+            print('No bytes were retrieved from the searched message')
 
     def __try_download_attachments_to_path(self, imap_connection: IMAP4, email_data: List[Tuple[bytes, bytes]]) -> None:
         for i, mail in enumerate(email_data[0].split()):
@@ -93,5 +95,6 @@ class ImapConnectionHandler:
         self.__smtp_connection_handler.send_email_data_to_config_addresses(list_of_email_messages)
 
     @staticmethod
-    def __get_email_message_from_bytes_tuple(email_data_in_bytes: Union[List[None], List[Union[bytes, Tuple[bytes, bytes]]]]) -> email:
+    def __get_email_message_from_bytes_tuple(
+            email_data_in_bytes: Union[List[None], List[Union[bytes, Tuple[bytes, bytes]]]]) -> email:
         return email.message_from_string(s=email_data_in_bytes[0][1].decode('utf-8'))
