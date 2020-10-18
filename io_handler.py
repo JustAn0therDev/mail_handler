@@ -42,4 +42,4 @@ class IOHandler:
                 if 'attachment' in content_disposition:
                     byte_writer.write(email_content.get_payload(decode=True))
         except Exception as ex_error:
-            print(f'[EXCEPTION] - While saving attachment bytes: {ex_error}')
+            print(f'[EXCEPTION] - While saving attachment: {ex_error}')
