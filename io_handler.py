@@ -35,5 +35,11 @@ class IOHandler:
             print(f'[EXCEPTION] - File Writing: {ex_error}')
 
     @staticmethod
-    def download_email_attachment(self) -> None:
-        pass
+    def save_email_attachment(email_content: email, content_disposition: list, file_path: str) -> None:
+        file_name = email_content.get_filename()
+        try:
+            with open(f'{file_path}/{file_name}', 'wb') as byte_writer:
+                if 'attachment' in content_disposition:
+                    byte_writer.write(email_content.get_payload(decode=True))
+        except Exception as ex_error:
+            print(f'[EXCEPTION] - While saving attachment bytes: {ex_error}')

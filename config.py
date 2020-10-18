@@ -13,4 +13,5 @@ class Config:
         self.mailbox = dictionary_of_configs['MAILBOX']
         self.imap_address = dictionary_of_configs['IMAP_ADDRESS']
         self.save_file_path = dictionary_of_configs['OUTPUT']
+        self.what_to_download = dictionary_of_configs['DOWNLOAD']
         self.save_file_name = 'message_output'
