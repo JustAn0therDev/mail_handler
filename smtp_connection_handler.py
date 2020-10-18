@@ -14,5 +14,5 @@ class SmtpConnectionHandler:
                 mail.replace_header('To', self.__config.to_addresses)
                 smtp_connection.sendmail(
                     self.__config.email,
-                    self.__config.to_addresses,
+                    self.__config.to_addresses.split(', '),
                     mail.as_string())

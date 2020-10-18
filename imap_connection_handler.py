@@ -43,33 +43,32 @@ class ImapConnectionHandler:
         return imap_connection.search(None, self.__config.search, self.__config.data_to_look_for)
 
     def __try_write_message_body_to_file(self, imap_connection: IMAP4, email_data: List[Tuple[bytes, bytes]]) -> None:
-        if len(email_data) > 0:
-            for i, mail in enumerate(email_data[0].split()):
-                file_path = \
-                    f'{self.__config.save_file_path}/{self.__config.save_file_name}_{i + 1}.{self.__config.extension}'
-                _, email_bytes_tuple = imap_connection.fetch(mail, '(RFC822)')
-                if email_bytes_tuple[0] is not None:
-                    IOHandler.truncate_file_content(file_path)
-                    email_message = ImapConnectionHandler.__get_email_message_from_bytes_tuple(email_bytes_tuple)
-                    if email_message.is_multipart():
-                        for part in email_message.walk():
-                            IOHandler.write_payload_to_file(
-                                payload=part.get_payload(decode=True),
-                                content_type=part.get_content_type(),
-                                content_disposition=str(part.get('Content-Disposition')),
-                                file_path=file_path)
-                    else:
+        ImapConnectionHandler.__email_data_has_bytes(email_data)
+        for i, mail in enumerate(email_data[0].split()):
+            file_path = \
+                f'{self.__config.save_file_path}/{self.__config.save_file_name}_{i + 1}.{self.__config.extension}'
+            _, email_bytes_tuple = imap_connection.fetch(mail, '(RFC822)')
+            if email_bytes_tuple[0] is not None:
+                IOHandler.truncate_file_content(file_path)
+                email_message = ImapConnectionHandler.__get_email_message_from_bytes_tuple(email_bytes_tuple)
+                if email_message.is_multipart():
+                    for part in email_message.walk():
                         IOHandler.write_payload_to_file(
-                            payload=email_message.get_payload(decode=True),
-                            content_type=email_message.get_content_type(),
-                            content_disposition=str(email_message.get('Content-Disposition')),
+                            payload=part.get_payload(decode=True),
+                            content_type=part.get_content_type(),
+                            content_disposition=str(part.get('Content-Disposition')),
                             file_path=file_path)
                 else:
-                    print('No information was found for the searched message')
-        else:
-            print('No bytes were retrieved from the searched message')
+                    IOHandler.write_payload_to_file(
+                        payload=email_message.get_payload(decode=True),
+                        content_type=email_message.get_content_type(),
+                        content_disposition=str(email_message.get('Content-Disposition')),
+                        file_path=file_path)
+            else:
+                print('No information was found for the searched message')
 
     def __try_download_attachments_to_path(self, imap_connection: IMAP4, email_data: List[Tuple[bytes, bytes]]) -> None:
+        ImapConnectionHandler.__email_data_has_bytes(email_data)
         for i, mail in enumerate(email_data[0].split()):
             _, email_bytes_tuple = imap_connection.fetch(mail, '(RFC822)')
             email_message = ImapConnectionHandler.__get_email_message_from_bytes_tuple(email_bytes_tuple)
@@ -88,6 +87,7 @@ class ImapConnectionHandler:
                         byte_writer.write(part.get_payload(decode=True))
 
     def __send_email_data_with_smtp(self, imap_connection: IMAP4, email_data: List[Tuple[bytes, bytes]]):
+        ImapConnectionHandler.__email_data_has_bytes(email_data)
         list_of_email_messages = []
         for i, mail in enumerate(email_data[0].split()):
             _, email_bytes_tuple = imap_connection.fetch(mail, '(RFC822)')
@@ -98,3 +98,8 @@ class ImapConnectionHandler:
     def __get_email_message_from_bytes_tuple(
             email_data_in_bytes: Union[List[None], List[Union[bytes, Tuple[bytes, bytes]]]]) -> email:
         return email.message_from_string(s=email_data_in_bytes[0][1].decode('utf-8'))
+
+    @staticmethod
+    def __email_data_has_bytes(email_data: List[bytes]) -> bool:
+        if len(email_data[0]) == 0 or email_data[0] == b'':
+            raise Exception('No message was found for the specified criteria')
