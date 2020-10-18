@@ -85,13 +85,13 @@ class ImapConnectionHandler:
                     with open(file_path, 'wb') as byte_writer:
                         byte_writer.write(part.get_payload(decode=True))
 
-    @staticmethod
-    def __get_email_message_from_bytes_tuple(email_data_in_bytes: Union[List[None], List[Union[bytes, Tuple[bytes, bytes]]]]) -> email:
-        return email.message_from_string(s=email_data_in_bytes[0][1].decode('utf-8'))
-
     def __send_email_data_with_smtp(self, imap_connection: IMAP4, email_data: List[Tuple[bytes, bytes]]):
         list_of_email_messages = []
         for i, mail in enumerate(email_data[0].split()):
             _, email_bytes_tuple = imap_connection.fetch(mail, '(RFC822)')
             list_of_email_messages.append(ImapConnectionHandler.__get_email_message_from_bytes_tuple(email_bytes_tuple))
         self.__smtp_connection_handler.send_email_data_to_config_addresses(list_of_email_messages)
+
+    @staticmethod
+    def __get_email_message_from_bytes_tuple(email_data_in_bytes: Union[List[None], List[Union[bytes, Tuple[bytes, bytes]]]]) -> email:
+        return email.message_from_string(s=email_data_in_bytes[0][1].decode('utf-8'))
