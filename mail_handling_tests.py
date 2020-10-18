@@ -18,6 +18,7 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(self.__config.data_to_look_for is not None)
         self.assertTrue(self.__config.mailbox is not None)
         self.assertTrue(self.__config.imap_address is not None)
+        self.assertTrue(self.__config.what_to_download is not None)
 
     def test_imap_connection_handler_instance_is_not_none(self):
         self.assertTrue(self.__imap_connection_handler is not None)
