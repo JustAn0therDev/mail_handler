@@ -76,15 +76,13 @@ class ImapConnectionHandler:
                 if part.get_content_maintype() == 'multipart' or part.get('Content-Disposition') is None:
                     continue
                 if os.path.exists(f'{self.__config.save_file_path}/{part.get_filename()}'):
-                    attachment_name, extension = part.get_filename().split(".")[0], part.get_filename().split(".")[1]
-                    file_name = f'{attachment_name}_{i}.{extension}'
-                    file_path = f'{self.__config.save_file_path}/{file_name}'
-                    with open(file_path, 'wb') as byte_writer:
-                        byte_writer.write(part.get_payload(decode=True))
+                    file_and_extension_split = part.get_filename().split(".")
+                    attachment_name, extension = file_and_extension_split[0], file_and_extension_split[1]
+                    file_path = f'{self.__config.save_file_path}/{attachment_name}_{i}.{extension}'
+                    IOHandler.save_email_attachment(part, part.get('Content-Disposition'), file_path)
                 else:
                     file_path = f'{self.__config.save_file_path}/{part.get_filename()}'
-                    with open(file_path, 'wb') as byte_writer:
-                        byte_writer.write(part.get_payload(decode=True))
+                    IOHandler.save_email_attachment(part, part.get('Content-Disposition'), file_path)
 
     def __send_email_data_with_smtp(self, imap_connection: IMAP4, email_data: List[Tuple[bytes, bytes]]):
         ImapConnectionHandler.__email_data_has_bytes(email_data)
@@ -100,6 +98,6 @@ class ImapConnectionHandler:
         return email.message_from_string(s=email_data_in_bytes[0][1].decode('utf-8'))
 
     @staticmethod
-    def __email_data_has_bytes(email_data: List[bytes]) -> bool:
+    def __email_data_has_bytes(email_data: List[Tuple[bytes, bytes]]) -> None:
         if len(email_data[0]) == 0 or email_data[0] == b'':
             raise Exception('No message was found for the specified criteria')

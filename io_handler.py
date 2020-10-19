@@ -11,7 +11,7 @@ class IOHandler:
     @staticmethod
     def get_dictionary_of_configs_from_file(file_path: str) -> dict:
         dict_of_configs = dict()
-        with open(file_path, 'r') as file_reader:
+        with open(file_path, 'r', encoding='utf-8') as file_reader:
             for line in file_reader:
                 current_line = line.split('=')
                 dict_of_configs[current_line[0]] = current_line[1].replace('\n', '')
@@ -25,7 +25,7 @@ class IOHandler:
             file_writer.truncate()
 
     @staticmethod
-    def write_payload_to_file(payload: email, content_type: str, content_disposition: list, file_path: str) -> None:
+    def write_payload_to_file(payload: email, content_type: str, content_disposition: str, file_path: str) -> None:
         try:
             with open(file_path, 'a') as file_writer:
                 if content_type == 'text/plain' and 'attachment' not in content_disposition:
@@ -35,10 +35,9 @@ class IOHandler:
             print(f'[EXCEPTION] - File Writing: {ex_error}')
 
     @staticmethod
-    def save_email_attachment(email_content: email, content_disposition: list, file_path: str) -> None:
-        file_name = email_content.get_filename()
+    def save_email_attachment(email_content: email, content_disposition: str, file_path: str) -> None:
         try:
-            with open(f'{file_path}/{file_name}', 'wb') as byte_writer:
+            with open(f'{file_path}', 'wb') as byte_writer:
                 if 'attachment' in content_disposition:
                     byte_writer.write(email_content.get_payload(decode=True))
         except Exception as ex_error:

@@ -1,6 +1,7 @@
 from io_handler import IOHandler
 from typing import Dict
 
+
 class Config:
     __dictionary_of_configs: Dict
     save_file_name: str
