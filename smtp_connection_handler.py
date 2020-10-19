@@ -1,6 +1,6 @@
 from config import Config
 from smtplib import SMTP_SSL
-from email.message import EmailMessage
+from email.message import Message
 from typing import List
 
 
@@ -8,7 +8,7 @@ class SmtpConnectionHandler:
     def __init__(self, config: Config):
         self.__config = config
 
-    def send_email_data_to_config_addresses(self, list_of_email_messages: List[EmailMessage]):
+    def send_email_data_to_config_addresses(self, list_of_email_messages: List[Message]):
         with SMTP_SSL(self.__config.smtp_address) as smtp_connection:
             smtp_connection.login(self.__config.email, self.__config.app_password)
             for mail in list_of_email_messages:
