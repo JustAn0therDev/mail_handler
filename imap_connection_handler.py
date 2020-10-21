@@ -18,11 +18,11 @@ class ImapConnectionHandler:
             self.__select_mailbox(imap_connection)
             _, email_data = self.__search_mailbox(imap_connection)
 
-            if self.__config.action.lower() == 'text':
+            if self.__config.action.lower() == 'download_message':
                 self.__try_write_message_body_to_file(imap_connection, email_data)
-            elif self.__config.action.lower() == 'attachment':
+            elif self.__config.action.lower() == 'download_attachment':
                 self.__try_download_attachments_to_path(imap_connection, email_data)
-            elif self.__config.action.lower() == 'forward':
+            elif self.__config.action.lower() == 'forward_message':
                 self.__send_email_data_with_smtp(imap_connection, email_data)
             else:
                 raise NotImplementedError('The specified ACTION value in the config file has not been implemented yet')

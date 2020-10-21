@@ -5,7 +5,7 @@ class IOHandler:
     @staticmethod
     def validate_arguments(argv: list) -> None:
         if len(argv) != 2:
-            print('No configuration file provided')
+            print('No configuration file path provided')
             quit(1)
 
     @staticmethod
