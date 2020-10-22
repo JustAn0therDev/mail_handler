@@ -6,6 +6,18 @@
 
 # Getting started
 
+## Running the application
+
+You can run it by typing the following in your terminal of choice:
+
+`/path_you_chose/repos/mail_handler/mail_handler.py path_you_chose/config_files/configs.txt`
+
+The only argument when calling the application via command line should be the path to your configuration file of choice. If the configuration file or its file path is not specified, the application will warn you and stop its execution.
+
+You can also map the `mail_handler.py` path to your PATH environment:
+
+`mail_handler path_you_chose/config_files/configs.txt`
+
 ## Configuration
 
 `mail_handler` uses a configuration file to "act" based on it. Your configuration file can be a simple `.txt` file with a few lines in it, consisting of a few `key=value` pairs.
