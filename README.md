@@ -108,7 +108,7 @@ For a Windows operating system, the file path **must be mapped from the root dir
 
 ### ACTION
 
-`ACTION` will be read by `mail_handler` as the **main goal of that execution**. The current available values are:
+`ACTION` will be read by `mail_handler` as the **main goal of that execution**. The currently available values are:
 
 - `ACTION=download_message`: Will download the message's plain text content;
 - `ACTION=download_attachment`: Will download the message's attachments;
@@ -121,7 +121,7 @@ Any other value provided will raise a `NotImplementedError`.
 
 A list of e-mail addresses to forward the requested message, **if requested**.
 
-Each item in the list must be separated by ", " (comma, space).
+Each e-mail address in the list must be separated by ", " (comma, space).
 
 `TO=emailOne@domain.com, emailTwo@domain.com`
 
