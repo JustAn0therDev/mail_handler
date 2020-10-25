@@ -18,6 +18,10 @@ You can also map the `mail_handler.py` path to your PATH environment, such as a 
 
 `mail_handler path_you_chose/configs.txt`
 
+## Output
+
+Currently, the application can either forward messages or download their content/attachments. **If mail_handler finds a list of messages, their content/attachments will be download/forwarded.** So if while looking for an e-mail subject `mail_handler` finds three messages with the provided `SUBJECT`, those three messages will receive the same treatment (all of them will be downloaded or forwarded).
+
 ## Virtual Environments
 
 If for some reason your Python version is not letting the application run smoothly, you can always create a virtual environment and use a custom Python interpreter for it. You can find more about virtual environments in Python [here](https://docs.python.org/3/tutorial/venv.html). 
