@@ -2,7 +2,7 @@
 
 ## A CLI application to download and/or forward messages from your favorite terminal!
 
-`mail_handler` is a CLI application written in 100% native Python 3 (3.6) with the objective of making 'boring e-mail management' much easier through the terminal (and more fun). The choice of writing the application with only native libraries was made to ensure that it keeps working as intended as long as such libraries are supported by the language the way they were implemented initially.
+`mail_handler` is a CLI application written in 100% native Python 3 (3.6) with the objective of making 'boring e-mail management' much easier through the terminal (and more fun). The choice of writing the application with only native libraries was made to ensure that it keeps working as intended as long as such libraries are supported by the language the way they were implemented.
 
 # Getting started
 
@@ -10,19 +10,25 @@
 
 You can run it by typing the following in your terminal of choice:
 
-`/path_you_chose/repos/mail_handler/mail_handler.py path_you_chose/config_files/configs.txt`
+`/path_you_chose/mail_handler/mail_handler.py path_you_chose/configs.txt`
 
-The only argument when calling the application via command line should be the path to your configuration file of choice. If the configuration file or its file path is not specified, the application will warn you and stop its execution.
+The only argument when calling the application via command line should be the path to your configuration file of choice. If the configuration file/file path is not specified, the application will warn you and stop its execution.
 
-You can also map the `mail_handler.py` path to your PATH environment:
+You can also map the `mail_handler.py` path to your PATH environment, such as a `mail_handler` command:
 
-`mail_handler path_you_chose/config_files/configs.txt`
+`mail_handler path_you_chose/configs.txt`
+
+## Virtual Environments
+
+If for some reason your Python version is not letting the application run smoothly, you can always create a virtual environment and use a custom Python interpreter for it. You can find more about virtual environments in Python [here](https://docs.python.org/3/tutorial/venv.html). 
+
+Your virtual Python environment can be configured in many ways, such as natively with `venv` or using a package like `virtualenv` (can be installed with `pip install virtualenv`, for example).
 
 ## Configuration
 
 `mail_handler` uses a configuration file to "act" based on it. Your configuration file can be a simple `.txt` file with a few lines in it, consisting of a few `key=value` pairs.
 
-Think of this configuration file as a set of **instructions and values** that will tell `mail_handler` what to do with those provided values.
+Think of this configuration file as a set of **instructions and values** that will tell `mail_handler` what to do with that same information.
 
 Keep in mind that the keys **must be written exactly as shown in the examples**, they don't have to be in an specific order and there can be **only one key-value pair per line**, if not **the last value will overwrite the previous one**, e.g.:
 
@@ -32,7 +38,7 @@ Keep in mind that the keys **must be written exactly as shown in the examples**,
 
 `SEARCH=SUBJECT`
 
-The final value inside the `SEARCH` key will be `SUBJECT` in this example.
+The final value for the `SEARCH` key will be `SUBJECT` in this example.
 
 All of the values below **must be present in the configuration folder, even if some are not used for the specified ACTION value**.
 
@@ -121,7 +127,7 @@ Each item in the list must be separated by ", " (comma, space).
 
 ## Complete configuration file
 
-An example of a complete configuration file would look like this, **with no empty lines between each key-value pair**:
+An example of a complete configuration file would look like this, **with no empty lines**:
 
 `EMAIL=myemailaddress@somedomain.com`
 
@@ -147,8 +153,8 @@ An example of a complete configuration file would look like this, **with no empt
 
 A use-case for could be a job that runs on your server or local machine at a specified time of day and downloads (or forwards) a list of e-mails, much like a notification for some addresses (sys-admins, for example).
 
-Another use-case could be having e-mails sent as notifications from an action in a Web Application or an unexpected change in your data through some connection to a database that triggers the `mail_handler`.
+Another use-case could be having e-mails sent as notifications from an action in a Web Application or an unexpected behaviour from your data through some connection to a database that triggers a `mail_handler` execution.
 
 ### Final Considerations
 
-If you used the application and liked it, please consider giving it a star and contributing to it by changing some implementations that might be interesting to other people as well and making Pull Requests to have them in the `main` branch, customizing to your own use-cases, etc.
+If you used the application and liked it, please consider giving it a star and contributing to it! 
