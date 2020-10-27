@@ -14,10 +14,6 @@ You can run it by typing the following in your terminal of choice:
 
 The only argument when calling the application via command line should be the path to your configuration file of choice. If the configuration file/file path is not specified, the application will warn you and stop its execution.
 
-You can also map the `mail_handler.py` path to your PATH environment, such as a `mail_handler` command:
-
-`mail_handler path_you_chose/configs.txt`
-
 ## Output
 
 Currently, the application can either forward messages or download their content/attachments. **If mail_handler finds a list of messages, their content/attachments will be download/forwarded.** So if while looking for an e-mail subject `mail_handler` finds three messages with the provided `SUBJECT`, those three messages will receive the same treatment (all of them will be downloaded or forwarded).
