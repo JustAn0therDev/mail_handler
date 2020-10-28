@@ -1,5 +1,6 @@
-from config import Config
+#!/usr/bin/env python3
 import sys
+from config import Config
 from imap_connection_handler import ImapConnectionHandler
 from io_handler import IOHandler
 
