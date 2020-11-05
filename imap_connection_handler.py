@@ -45,7 +45,7 @@ class ImapConnectionHandler:
     def __try_write_message_body_to_file(self, imap_connection: IMAP4, email_data: List[Tuple[bytes, bytes]]) -> None:
         ImapConnectionHandler.__email_data_has_bytes(email_data)
         for i, mail in enumerate(email_data[0].split()):
-            file_path = '{}/{}.{}'.format(self.__config.save_file_path, self.__config.save_file_name, self.__config.extension)
+            file_path = '{}/{}_{}.{}'.format(self.__config.save_file_path, self.__config.save_file_name, i, self.__config.extension)
             _, email_bytes_tuple = imap_connection.fetch(mail, '(RFC822)')
             if email_bytes_tuple[0] is not None:
                 IOHandler.truncate_file_content(file_path)
