@@ -1,10 +1,10 @@
-from imaplib import IMAP4_SSL, IMAP4
-import email
 import os
-from typing import Tuple, List, Union
+import email
 from config import Config
-from smtp_connection_handler import SmtpConnectionHandler
 from io_handler import IOHandler
+from imaplib import IMAP4_SSL, IMAP4
+from typing import Tuple, List, Union
+from smtp_connection_handler import SmtpConnectionHandler
 
 
 class ImapConnectionHandler:
@@ -45,8 +45,7 @@ class ImapConnectionHandler:
     def __try_write_message_body_to_file(self, imap_connection: IMAP4, email_data: List[Tuple[bytes, bytes]]) -> None:
         ImapConnectionHandler.__email_data_has_bytes(email_data)
         for i, mail in enumerate(email_data[0].split()):
-            file_path = \
-                f'{self.__config.save_file_path}/{self.__config.save_file_name}_{i + 1}.{self.__config.extension}'
+            file_path = '{}/{}.{}'.format(self.__config.save_file_path, self.__config.save_file_name, self.__config.extension)
             _, email_bytes_tuple = imap_connection.fetch(mail, '(RFC822)')
             if email_bytes_tuple[0] is not None:
                 IOHandler.truncate_file_content(file_path)
@@ -79,9 +78,9 @@ class ImapConnectionHandler:
                 if os.path.exists(f'{self.__config.save_file_path}/{part.get_filename()}'):
                     file_and_extension_split = part.get_filename().split(".")
                     attachment_name, extension = file_and_extension_split[0], file_and_extension_split[1]
-                    file_path = f'{self.__config.save_file_path}/{attachment_name}_{i}.{extension}'
+                    file_path = '{}/{}_{}.{}'.format(self.__config.save_file_path, attachment_name, i, extension)
                 else:
-                    file_path = f'{self.__config.save_file_path}/{part.get_filename()}'
+                    file_path = '{}/{}'.format(self.__config.save_file_path, part.get_filename()) 
                 IOHandler.save_email_attachment(part, part.get('Content-Disposition'), file_path)
 
     def __send_email_data_with_smtp(self, imap_connection: IMAP4, email_data: List[Tuple[bytes, bytes]]):
@@ -101,3 +100,4 @@ class ImapConnectionHandler:
     def __email_data_has_bytes(email_data: List[Tuple[bytes, bytes]]) -> None:
         if len(email_data[0]) == 0 or email_data[0] == b'':
             raise Exception('No message was found for the specified criteria')
+

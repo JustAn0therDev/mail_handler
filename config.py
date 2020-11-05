@@ -1,5 +1,5 @@
-from io_handler import IOHandler
 from typing import Dict
+from io_handler import IOHandler
 
 
 class Config:
@@ -25,3 +25,4 @@ class Config:
         self.action = self.__dictionary_of_configs['ACTION']
         self.to_addresses = self.__dictionary_of_configs['TO']
         self.initialize_default_config_values()
+

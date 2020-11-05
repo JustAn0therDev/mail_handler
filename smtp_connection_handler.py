@@ -1,7 +1,7 @@
+from typing import List
 from config import Config
 from smtplib import SMTP_SSL
 from email.message import Message
-from typing import List
 
 
 class SmtpConnectionHandler:

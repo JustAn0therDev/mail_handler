@@ -32,7 +32,7 @@ class IOHandler:
                     text_plain_message = payload.decode('utf-8')
                     file_writer.write('{}\n'.format(text_plain_message))
         except Exception as ex_error:
-            print(f'[EXCEPTION] - File Writing: {ex_error}')
+            print('[EXCEPTION] - File Writing: {}'.format(str(ex_error)))
 
     @staticmethod
     def save_email_attachment(email_content: email, content_disposition: str, file_path: str) -> None:
@@ -41,4 +41,4 @@ class IOHandler:
                 if 'attachment' in content_disposition:
                     byte_writer.write(email_content.get_payload(decode=True))
         except Exception as ex_error:
-            print(f'[EXCEPTION] - While saving attachment: {ex_error}')
+            print('[EXCEPTION] - While saving attachment: {}'.format(str(ex_error)))
