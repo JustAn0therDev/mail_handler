@@ -1,3 +1,5 @@
 /__pycache__
 /.idea
-*.txt
+configs_*.txt
+*_configs.txt
+configs.txt
