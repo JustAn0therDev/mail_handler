@@ -47,9 +47,11 @@ class ImapConnectionHandler:
         for i, mail in enumerate(email_data[0].split()):
             file_path = '{}/{}_{}.{}'.format(self.__config.save_file_path, self.__config.save_file_name, i, self.__config.extension)
             _, email_bytes_tuple = imap_connection.fetch(mail, '(RFC822)')
+
             if email_bytes_tuple[0] is not None:
                 IOHandler.truncate_file_content(file_path)
                 email_message = ImapConnectionHandler.__get_email_message_from_bytes_tuple(email_bytes_tuple)
+
                 if email_message.is_multipart():
                     for part in email_message.walk():
                         IOHandler.write_payload_to_file(
@@ -71,16 +73,20 @@ class ImapConnectionHandler:
         for i, mail in enumerate(email_data[0].split()):
             _, email_bytes_tuple = imap_connection.fetch(mail, '(RFC822)')
             email_message = ImapConnectionHandler.__get_email_message_from_bytes_tuple(email_bytes_tuple)
+
             for part in email_message.walk():
                 file_path: str
+
                 if part.get_content_maintype() == 'multipart' or part.get('Content-Disposition') is None:
                     continue
+
                 if os.path.exists(f'{self.__config.save_file_path}/{part.get_filename()}'):
                     file_and_extension_split = part.get_filename().split(".")
                     attachment_name, extension = file_and_extension_split[0], file_and_extension_split[1]
                     file_path = '{}/{}_{}.{}'.format(self.__config.save_file_path, attachment_name, i, extension)
                 else:
                     file_path = '{}/{}'.format(self.__config.save_file_path, part.get_filename()) 
+
                 IOHandler.save_email_attachment(part, part.get('Content-Disposition'), file_path)
 
     def __send_email_data_with_smtp(self, imap_connection: IMAP4, email_data: List[Tuple[bytes, bytes]]):

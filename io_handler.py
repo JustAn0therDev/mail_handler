@@ -20,8 +20,8 @@ class IOHandler:
     @staticmethod
     def truncate_file_content(file_path: str) -> None:
         with open(file_path, 'w') as file_writer:
-            initial_file_position_in_bytes = 0
-            file_writer.seek(initial_file_position_in_bytes)
+            initial_file_position = 0
+            file_writer.seek(initial_file_position)
             file_writer.truncate()
 
     @staticmethod

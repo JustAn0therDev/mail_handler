@@ -3,3 +3,5 @@
 configs_*.txt
 *_configs.txt
 configs.txt
+.*
+*~

@@ -15,6 +15,7 @@ class SmtpConnectionHandler:
                 mail.replace_header('From', self.__config.email)
                 mail.replace_header('To', self.__config.to_addresses)
                 utf8_encoded_mail = str(mail).encode('utf-8')
+
                 smtp_connection.sendmail(
                     self.__config.email,
                     self.__config.to_addresses.split(', '),
